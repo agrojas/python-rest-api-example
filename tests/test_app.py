@@ -1,6 +1,4 @@
-from unittest.mock import patch
-
-from api import __version__
+from app.api import __version__
 from fastapi.testclient import TestClient
 from main import api
 

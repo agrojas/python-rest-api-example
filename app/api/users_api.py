@@ -3,8 +3,8 @@ import logging
 from fastapi import APIRouter, Depends
 from typing import List
 
-from api.models.user import UserResponse
-from services.users_service import UsersService
+from app.api.models.user import UserResponse
+from app.services.users_service import UsersService
 
 router = APIRouter()
 logger = logging.getLogger(__name__)

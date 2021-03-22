@@ -1,7 +1,7 @@
 from typing import List
 import logging
 
-from entities.user import User
+from app.entities.user import User
 
 logger = logging.getLogger(__name__)
 
