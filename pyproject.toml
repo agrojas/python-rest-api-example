@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "python-rest-api-example"
+version = "0.1.0"
+description = "Basic proyect with python3, FastAPI and Poetry"
+authors = ["Agustin Rojas <rojasagustin90@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.63.0"
+uvicorn = "^0.13.4"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
