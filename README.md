@@ -4,6 +4,7 @@
 
 [![Tests](https://github.com/agrojas/python-rest-api-example/actions/workflows/test.yml/badge.svg)](https://github.com/agrojas/python-rest-api-example/actions/workflows/test.yml)
 
+[![Linters](https://github.com/agrojas/python-rest-api-example/actions/workflows/linters.yml/badge.svg)](https://github.com/agrojas/python-rest-api-example/actions/workflows/linters.yml)
 
 ### pre-commit
 
