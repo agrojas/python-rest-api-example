@@ -24,7 +24,9 @@ class User:
         self.id = id
         self.username = username
         self.email = email
-        self.secret = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+        self.secret = ''.join(
+            random.choices(string.ascii_uppercase + string.digits, k=10)
+        )
 
     def save(self, user_repository: 'UserRepository'):
         return user_repository.add(self)
