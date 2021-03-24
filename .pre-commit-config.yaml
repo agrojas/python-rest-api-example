@@ -1,0 +1,20 @@
+repos:
+-   repo: https://github.com/psf/black
+    rev: 19.10b0
+    hooks:
+    - id: black
+      name: black
+      entry: black
+      language: python
+      types: [python]
+      args: [--skip-string-normalization]
+-   repo: git://github.com/pre-commit/pre-commit-hooks
+    rev: v2.5.0
+    hooks:
+    - id: trailing-whitespace
+    - id: flake8
+      name: flake8
+      entry: flake8
+      language: python
+      types: [python]
+      args: [--max-line-length=88]

@@ -6,7 +6,6 @@ from app.domain.users.repository.user_repository import UserRepository
 
 
 class UserUseCases:
-
     def __init__(self, user_repository: UserRepository):
         self.user_repository = user_repository
 
@@ -14,4 +13,6 @@ class UserUseCases:
         return self.user_repository.all()
 
     def register(self, user_command: UserCreateCommand) -> User:
-        return User(username=user_command.username, email=user_command.email).save(self.user_repository)
+        return User(username=user_command.username, email=user_command.email).save(
+            self.user_repository
+        )
