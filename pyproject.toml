@@ -16,6 +16,7 @@ pydantic = {extras = ["email"], version = "^1.8.1"}
 pytest = "^6.2.2"
 pytest-cov = "^2.11.1"
 requests = "^2.25.1"
+peewee = "^3.14.4"
 
 [tool.poetry.extras]
 testing = ["pytest", "pytest-cov"]
