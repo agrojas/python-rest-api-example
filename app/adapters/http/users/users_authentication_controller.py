@@ -25,7 +25,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 @router.post("/token", response_model=Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     user = UserAuthenticationUseCases(user_repository, pwd_context).find_by_credentials(
-        UserCredentialsCommand(form_data.username, form_data.password)
+        UserCredentialsCommand(username=form_data.username, password=form_data.password)
     )
     if not user:
         raise HTTPException(

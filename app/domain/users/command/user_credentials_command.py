@@ -1,4 +1,6 @@
-class UserCredentialsCommand:
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
+from pydantic.main import BaseModel
+
+
+class UserCredentialsCommand(BaseModel):
+    username: str
+    password: str
