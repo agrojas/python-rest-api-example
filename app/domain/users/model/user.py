@@ -1,12 +1,6 @@
-import random
-import string
-
-
 import uuid
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
-
-from pydantic import Field
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     # This is necessary to prevent circular imports
@@ -17,16 +11,9 @@ if TYPE_CHECKING:
 class User:
     username: str
     email: str
-    secret: str
-    id: uuid.UUID
-
-    def __init__(self, username, email, id=uuid.uuid4()):
-        self.id = id
-        self.username = username
-        self.email = email
-        self.secret = ''.join(
-            random.choices(string.ascii_uppercase + string.digits, k=10)
-        )
+    password: str
+    id: uuid.UUID = uuid.uuid4()
+    full_name: Optional[str] = None
 
     def save(self, user_repository: 'UserRepository'):
         return user_repository.add(self)

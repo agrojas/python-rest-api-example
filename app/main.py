@@ -3,7 +3,7 @@ import logging
 import uvicorn
 from fastapi import FastAPI
 
-from app.adapters.http.users import users_api
+from app.adapters.http.users import users_controller, users_authentication_controller
 
 # setup loggers
 logging.config.fileConfig('app/conf/logging.conf', disable_existing_loggers=False)
@@ -24,7 +24,8 @@ async def shutdown():
 
 
 def configure():
-    api.include_router(users_api.router)
+    api.include_router(users_controller.router)
+    api.include_router(users_authentication_controller.router)
 
 
 configure()
