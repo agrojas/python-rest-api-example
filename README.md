@@ -6,6 +6,12 @@
 
 [![Linters](https://github.com/agrojas/python-rest-api-example/actions/workflows/linters.yml/badge.svg)](https://github.com/agrojas/python-rest-api-example/actions/workflows/linters.yml)
 
+### Dependencies
+
+- Python 3.8
+- Poetry
+
+
 ### pre-commit
 
 Install
@@ -19,4 +25,10 @@ pre-commit install -t pre-push
 Run locally
 ``` bash
 pre-commit run --all-files
+```
+
+### Test
+Run tests
+``` bash
+pytest tests/
 ```
