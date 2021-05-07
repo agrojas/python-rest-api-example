@@ -13,11 +13,14 @@ python = "^3.8"
 fastapi = "^0.63.0"
 uvicorn = "^0.13.4"
 pydantic = {extras = ["email"], version = "^1.8.1"}
-pytest = "^6.2.2"
+pytest = "^6.2.3"
 pytest-cov = "^2.11.1"
 requests = "^2.25.1"
 peewee = "^3.14.4"
-
+python-multipart = "^0.0.5"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-jose = {extras = ["cryptography"], version = "^3.2.0"}
+python-dotenv = "^0.17.0"
 
 [tool.poetry.extras]
 testing = ["pytest", "pytest-cov"]
