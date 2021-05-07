@@ -1,15 +1,7 @@
 from fastapi import HTTPException, status
 from jose import jwt, JWTError
-
-# TODO: Use env vars
-
-# to get a string like this run:
-# openssl rand -hex 32
 from app.domain.users.usecases.user_usecases import UserUseCases
-
-SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+from app.conf.config import SECRET_KEY, ALGORITHM
 
 
 class JwtAuthenticator:

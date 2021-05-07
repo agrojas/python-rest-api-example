@@ -1,4 +1,10 @@
 import logging
+import os
+from dotenv import load_dotenv
+
+
+BASE_DIR = os.path.dirname(os.path.abspath(".env"))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 import uvicorn
 from fastapi import FastAPI
