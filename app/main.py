@@ -6,15 +6,15 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.abspath(".env"))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
+from app.conf.config import VERSION, DESCRIPTION, TITLE
 import uvicorn
 from fastapi import FastAPI
-
 from app.adapters.http.users import users_controller, users_authentication_controller
 
 # setup loggers
 logging.config.fileConfig('app/conf/logging.conf', disable_existing_loggers=False)
 
-api = FastAPI()
+api = FastAPI(title=TITLE, description=DESCRIPTION, version=VERSION)
 
 logger = logging.getLogger(__name__)
 

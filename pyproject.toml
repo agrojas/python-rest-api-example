@@ -21,6 +21,8 @@ python-multipart = "^0.0.5"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 python-jose = {extras = ["cryptography"], version = "^3.2.0"}
 python-dotenv = "^0.17.0"
+SQLAlchemy = "^1.4.14"
+uuid = "^1.30"
 
 [tool.poetry.extras]
 testing = ["pytest", "pytest-cov"]

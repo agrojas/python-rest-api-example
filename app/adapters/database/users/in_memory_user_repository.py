@@ -8,11 +8,14 @@ class InMemoryUserRepository(UserRepository):
     def __init__(self, db):
         self.users = db
 
+    def find_by_id(self, id: str) -> User:
+        return self.users[id]
+
     def find_by_username(self, username: str) -> User:
-        return self.users[username]
+        return list(lambda u: u.username == username, self.users)[0]
 
     def add(self, user: User) -> User:
-        self.users[user.username] = user
+        self.users[user.id] = user
         return user
 
     def all(self) -> List[User]:

@@ -21,7 +21,7 @@ class JwtAuthenticator:
                 raise credentials_exception
         except JWTError:
             raise credentials_exception
-        user = self.user_usecases.find_by_username(username=username)
+        user = self.user_usecases.repository.find_by_username(username=username)
         if user is None:
             raise credentials_exception
         return user
