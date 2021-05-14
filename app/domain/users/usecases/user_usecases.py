@@ -5,12 +5,12 @@ from app.domain.users.auth.password_encoder import PasswordEncoder
 from app.domain.users.command.user_create_command import UserCreateCommand
 from app.domain.users.model.user import User
 from app.domain.users.model.user_id import UserId
-from app.domain.users.repository.unit_of_work import AbstractUnitOfWork
+from app.domain.users.repository.unit_of_work import AbstractUserUnitOfWork
 
 
 class UserUseCases:
-    def __init__(self, user_uow: AbstractUnitOfWork, pwd_encoder: PasswordEncoder):
-        self.user_uow: AbstractUnitOfWork = user_uow
+    def __init__(self, user_uow: AbstractUserUnitOfWork, pwd_encoder: PasswordEncoder):
+        self.user_uow: AbstractUserUnitOfWork = user_uow
         self.pwd_encoder = pwd_encoder
 
     def list(self) -> List[User]:

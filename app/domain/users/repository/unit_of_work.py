@@ -2,7 +2,7 @@ import abc
 from app.domain.users.repository.user_repository import UserRepository
 
 
-class AbstractUnitOfWork(abc.ABC):
+class AbstractUserUnitOfWork(abc.ABC):
     repository: UserRepository
 
     @abc.abstractmethod

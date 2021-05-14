@@ -5,7 +5,7 @@ from typing import List
 
 from fastapi.security import OAuth2PasswordBearer
 from app.adapters.http.auth.jwt_authenticator import JwtAuthenticator
-from app.adapters.http.dependencies.dependencies import (
+from app.dependencies.dependencies import (
     jwt_auth_dependency,
     user_usecases_dependency,
 )

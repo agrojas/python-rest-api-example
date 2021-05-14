@@ -4,7 +4,7 @@ from fastapi import Depends, HTTPException, status, APIRouter
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from app.adapters.http.auth.jwt_user_signer import JwtUserSigner
 from app.adapters.http.auth.output.token import Token
-from app.adapters.http.dependencies.dependencies import user_auth_usecases_dependency
+from app.dependencies.dependencies import user_auth_usecases_dependency
 from app.domain.users.command.user_credentials_command import UserCredentialsCommand
 from app.domain.users.usecases.user_authentication_usecases import (
     UserAuthenticationUseCases,

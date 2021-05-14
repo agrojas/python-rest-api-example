@@ -1,13 +1,13 @@
 from typing import Optional
 
-from app.adapters.database.users.unit_of_work import UserUnitOfWork
 from app.domain.users.auth.password_encoder import PasswordEncoder
 from app.domain.users.command.user_credentials_command import UserCredentialsCommand
 from app.domain.users.model.user import User
+from app.domain.users.repository.unit_of_work import AbstractUserUnitOfWork
 
 
 class UserAuthenticationUseCases:
-    def __init__(self, user_uow: UserUnitOfWork, pwd_encoder: PasswordEncoder):
+    def __init__(self, user_uow: AbstractUserUnitOfWork, pwd_encoder: PasswordEncoder):
         self.user_uow = user_uow
         self.pwd_encoder = pwd_encoder
 
