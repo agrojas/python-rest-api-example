@@ -17,20 +17,23 @@ class UserUseCases:
         return self.user_uow.repository.all()
 
     def register(self, user_command: UserCreateCommand) -> User:
-        id = UserId(str(uuid.uuid4()))
+        user_id = UserId(str(uuid.uuid4()))
         try:
             User(
-                id=id,
+                id=user_id,
                 username=user_command.username,
                 email=user_command.email,
                 full_name=user_command.full_name,
                 password=self.pwd_encoder.encode(user_command.password),
             ).save(self.user_uow.repository)
             self.user_uow.commit()
-            return self.user_uow.repository.find_by_id(id)
+            return self.user_uow.repository.find_by_id(user_id)
         except Exception:
             self.user_uow.rollback()
             raise
 
     def find_by_username(self, username: str):
         return self.user_uow.repository.find_by_username(username)
+
+    def find_by_id(self, user_id: str):
+        return self.user_uow.repository.find_by_id(UserId(user_id))

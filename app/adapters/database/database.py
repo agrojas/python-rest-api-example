@@ -12,4 +12,4 @@ def get_args():
 def get_session_factory():
     engine = create_engine(DATABASE_URL, connect_args={'check_same_thread': False})
     UserDTO.__table__.create(bind=engine, checkfirst=True)
-    return sessionmaker(bind=engine, autocommit=False, autoflush=False,)
+    return sessionmaker(bind=engine, autocommit=False, autoflush=False)

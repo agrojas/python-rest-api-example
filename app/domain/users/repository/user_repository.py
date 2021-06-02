@@ -9,7 +9,7 @@ from app.domain.users.model.user_id import UserId
 
 class UserRepository(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def add(self, user: User) -> User:
+    def add(self, user: User):
         raise NotImplementedError
 
     @abc.abstractmethod

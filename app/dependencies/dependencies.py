@@ -19,7 +19,8 @@ from app.domain.users.usecases.user_usecases import UserUseCases
 
 
 def get_session() -> Iterator[Session]:
-    session: Session = get_session_factory()
+    SessionFactory: Session = get_session_factory()
+    session = SessionFactory()
     try:
         yield session
     finally:

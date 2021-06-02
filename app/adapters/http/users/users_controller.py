@@ -27,6 +27,14 @@ async def read_users_me(
     return jwt_auth.authenticate(token)
 
 
+@router.get('/users/{user_id}', response_model=UserResponse)
+async def get_user(
+    user_id: str, user_usecases: UserUseCases = Depends(user_usecases_dependency)
+):
+    logger.info("Get user by id called")
+    return user_usecases.find_by_id(user_id)
+
+
 @router.get('/users', response_model=List[UserResponse])
 async def get_users(user_usecases: UserUseCases = Depends(user_usecases_dependency)):
     logger.info("Get all users called")

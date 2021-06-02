@@ -1,6 +1,6 @@
 import os
 
-ENVIRONMENT = os.getenv('ENVIRONMENT', 'locals')
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'local')
 TITLE = os.getenv('TITLE', 'Default Title')
 DESCRIPTION = os.getenv('DESCRIPTION', 'Default Description')
 VERSION = os.getenv('VERSION', '1.0')
