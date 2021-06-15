@@ -1,12 +1,19 @@
 import abc
 from typing import List
 
+from uuid import UUID
+
 from app.domain.users.model.user import User
+from app.domain.users.model.user_id import UserId
 
 
 class UserRepository(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def add(self, user: User) -> User:
+    def add(self, user: User):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def find_by_id(self, user_id: UserId) -> User:
         raise NotImplementedError
 
     @abc.abstractmethod

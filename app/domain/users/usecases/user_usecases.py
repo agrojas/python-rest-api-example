@@ -1,27 +1,39 @@
 from typing import List
 
-from passlib.context import CryptContext
-
+import uuid as uuid
+from app.domain.users.auth.password_encoder import PasswordEncoder
 from app.domain.users.command.user_create_command import UserCreateCommand
 from app.domain.users.model.user import User
-from app.domain.users.repository.user_repository import UserRepository
+from app.domain.users.model.user_id import UserId
+from app.domain.users.repository.unit_of_work import AbstractUserUnitOfWork
 
 
 class UserUseCases:
-    def __init__(self, user_repository: UserRepository, pwd_context: CryptContext):
-        self.user_repository = user_repository
-        self.pwd_context = pwd_context
+    def __init__(self, user_uow: AbstractUserUnitOfWork, pwd_encoder: PasswordEncoder):
+        self.user_uow: AbstractUserUnitOfWork = user_uow
+        self.pwd_encoder = pwd_encoder
 
     def list(self) -> List[User]:
-        return self.user_repository.all()
+        return self.user_uow.repository.all()
 
     def register(self, user_command: UserCreateCommand) -> User:
-        return User(
-            username=user_command.username,
-            email=user_command.email,
-            full_name=user_command.full_name,
-            password=self.pwd_context.hash(user_command.password),
-        ).save(self.user_repository)
+        user_id = UserId(str(uuid.uuid4()))
+        try:
+            User(
+                id=user_id,
+                username=user_command.username,
+                email=user_command.email,
+                full_name=user_command.full_name,
+                password=self.pwd_encoder.encode(user_command.password),
+            ).save(self.user_uow.repository)
+            self.user_uow.commit()
+            return self.user_uow.repository.find_by_id(user_id)
+        except Exception:
+            self.user_uow.rollback()
+            raise
 
     def find_by_username(self, username: str):
-        return self.user_repository.find_by_username(username)
+        return self.user_uow.repository.find_by_username(username)
+
+    def find_by_id(self, user_id: str):
+        return self.user_uow.repository.find_by_id(UserId(user_id))

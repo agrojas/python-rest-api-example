@@ -1,27 +1,29 @@
-from fastapi import HTTPException, status
 from jose import jwt, JWTError
+
+from app.adapters.http.auth.exceptions.authentication_exception import (
+    AuthenticationException,
+)
 from app.domain.users.usecases.user_usecases import UserUseCases
-from app.conf.config import SECRET_KEY, ALGORITHM
+from app.conf.config import Settings
 
 
 class JwtAuthenticator:
-    def __init__(self, user_usecases: UserUseCases):
+    def __init__(self, user_usecases: UserUseCases, settings: Settings):
         self.user_usecases = user_usecases
+        self.secret_key = settings.secret_key
+        self.algorithm = settings.algorithm
 
     def authenticate(self, token: str):
-        credentials_exception = HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
             username: str = payload.get("sub")
             if username is None:
-                raise credentials_exception
+                raise AuthenticationException()
         except JWTError:
-            raise credentials_exception
-        user = self.user_usecases.find_by_username(username=username)
+            raise AuthenticationException()
+        user = self.user_usecases.user_uow.repository.find_by_username(
+            username=username
+        )
         if user is None:
-            raise credentials_exception
+            raise AuthenticationException()
         return user
