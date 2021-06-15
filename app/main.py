@@ -4,7 +4,7 @@ import logging
 import uvicorn
 
 
-logging.config.fileConfig('conf/logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig('app/conf/logging.conf', disable_existing_loggers=False)
 
 
 api = FastAPI()
