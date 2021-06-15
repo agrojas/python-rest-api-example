@@ -1,14 +1,21 @@
 import os
-
-ENVIRONMENT = os.getenv('ENVIRONMENT', 'local')
-TITLE = os.getenv('TITLE', 'Default Title')
-DESCRIPTION = os.getenv('DESCRIPTION', 'Default Description')
-VERSION = os.getenv('VERSION', '1.0')
-SECRET_KEY = os.getenv('SECRET_KEY')
-ALGORITHM = os.getenv('ALGORITHM')
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES', 1))
-DATABASE_URL = os.getenv('DATABASE_URL')
+from pydantic import BaseSettings
 
 
-def is_local_env():
-    return ENVIRONMENT == "local"
+class Settings(BaseSettings):
+    DEV_ENV = "dev"
+    environment: str = DEV_ENV
+    title: str
+    description: str
+    version: str
+    secret_key: str
+    algorithm: str
+    access_token_expire_minutes: int = 1
+    database_url: str
+
+    class Config:
+        BASE_DIR = os.path.dirname(os.path.abspath("../.env"))
+        env_file = os.path.join(BASE_DIR, ".env")
+
+    def is_dev_env(self):
+        return self.environment == self.DEV_ENV

@@ -8,11 +8,12 @@ from app.adapters.database.users.model import Base
 from app.adapters.database.users.sql_user_repository import SQLUserRepository
 from app.domain.users.model.user import User
 from app.domain.users.model.user_id import UserId
+from tests.conf.config import settings_to_test
 
 
 class TestSQLUserRepository(unittest.TestCase):
     def setUp(self):
-        self.engine = create_engine('sqlite:///:memory:')
+        self.engine = create_engine(settings_to_test.database_url)
         self.session = Session(self.engine)
         Base.metadata.create_all(self.engine)
         self.session.commit()

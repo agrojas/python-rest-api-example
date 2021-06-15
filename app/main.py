@@ -1,20 +1,14 @@
-import logging
-import os
-from dotenv import load_dotenv
-
-
-BASE_DIR = os.path.dirname(os.path.abspath(".env"))
-load_dotenv(os.path.join(BASE_DIR, ".env"))
-
-from app.conf.config import VERSION, DESCRIPTION, TITLE
-import uvicorn
-from fastapi import FastAPI
 from app.adapters.http.users import users_controller, users_authentication_controller
+from fastapi import FastAPI
+import logging
+import uvicorn
 
-# setup loggers
-logging.config.fileConfig('app/conf/logging.conf', disable_existing_loggers=False)
 
-api = FastAPI(title=TITLE, description=DESCRIPTION, version=VERSION)
+logging.config.fileConfig('conf/logging.conf', disable_existing_loggers=False)
+
+
+api = FastAPI()
+
 
 logger = logging.getLogger(__name__)
 
@@ -29,11 +23,9 @@ async def shutdown():
     logger.info("Shutdown APP")
 
 
-def configure():
-    api.include_router(users_controller.router)
-    api.include_router(users_authentication_controller.router)
+api.include_router(users_controller.router)
+api.include_router(users_authentication_controller.router)
 
 
-configure()
 if __name__ == '__main__':
     uvicorn.run(api)

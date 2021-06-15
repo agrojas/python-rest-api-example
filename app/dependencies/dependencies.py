@@ -1,3 +1,4 @@
+from functools import lru_cache
 from typing import Iterator
 
 from fastapi import Depends
@@ -8,6 +9,7 @@ from app.adapters.database.database import get_session_factory
 from app.adapters.database.users.sql_user_repository import SQLUserRepository
 from app.adapters.database.users.unit_of_work import UserUnitOfWork
 from app.adapters.http.auth.jwt_authenticator import JwtAuthenticator
+from app.adapters.http.auth.jwt_user_signer import JwtUserSigner
 from app.domain.users.auth.bycryp_password_encoder import ByCryptPasswordEncoder
 from app.domain.users.auth.password_encoder import PasswordEncoder
 from app.domain.users.repository.unit_of_work import AbstractUserUnitOfWork
@@ -16,10 +18,16 @@ from app.domain.users.usecases.user_authentication_usecases import (
     UserAuthenticationUseCases,
 )
 from app.domain.users.usecases.user_usecases import UserUseCases
+from app.conf.config import Settings
 
 
-def get_session() -> Iterator[Session]:
-    SessionFactory: Session = get_session_factory()
+@lru_cache()
+def get_settings():
+    return Settings()
+
+
+def get_session(settings: Settings = Depends(get_settings)) -> Iterator[Session]:
+    SessionFactory: Session = get_session_factory(settings)
     session = SessionFactory()
     try:
         yield session
@@ -60,6 +68,13 @@ def user_usecases_dependency(
 
 
 def jwt_auth_dependency(
-    user_usecases: UserUseCases = Depends(user_uow_dependency),
+    user_usecases: UserUseCases = Depends(user_usecases_dependency),
+    settings: Settings = Depends(get_settings),
 ) -> JwtAuthenticator:
-    return JwtAuthenticator(user_usecases)
+    return JwtAuthenticator(user_usecases, settings)
+
+
+def jwt_user_signer_dependency(
+    settings: Settings = Depends(get_settings),
+) -> JwtUserSigner:
+    return JwtUserSigner(settings)
