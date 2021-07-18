@@ -1,6 +1,7 @@
 # python-rest-api-example
 
 [![codecov](https://codecov.io/gh/agrojas/python-rest-api-example/branch/develop/graph/badge.svg?token=W1W08VMUSX)](https://codecov.io/gh/agrojas/python-rest-api-example) [![Tests](https://github.com/agrojas/python-rest-api-example/actions/workflows/test.yml/badge.svg)](https://github.com/agrojas/python-rest-api-example/actions/workflows/test.yml) [![Linters](https://github.com/agrojas/python-rest-api-example/actions/workflows/linters.yml/badge.svg)](https://github.com/agrojas/python-rest-api-example/actions/workflows/linters.yml)
+[![Deploy](https://github.com/agrojas/python-rest-api-example/actions/workflows/deploy.yml/badge.svg)](https://github.com/agrojas/python-rest-api-example/actions/workflows/deploy.yml)
 
 ### Dependencies
 
@@ -22,9 +23,23 @@ Run locally
 ``` bash
 pre-commit run --all-files
 ```
+### Migrations
+
+Using [alembic](https://alembic.sqlalchemy.org/)
+
+``` bash
+alembic init alembic
+```
+
+Create script
+``` bash
+alembic revision -m "SCRIPT DESCRIPTION"
+```
 
 ### Test
-Run tests
+
+Run tests using [pytest](https://docs.pytest.org/en/6.2.x/)
+
 ``` bash
 pytest tests/
 ```

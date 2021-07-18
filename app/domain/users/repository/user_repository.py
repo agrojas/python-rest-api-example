@@ -1,8 +1,6 @@
 import abc
 from typing import List
 
-from uuid import UUID
-
 from app.domain.users.model.user import User
 from app.domain.users.model.user_id import UserId
 
