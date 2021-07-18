@@ -23,9 +23,23 @@ Run locally
 ``` bash
 pre-commit run --all-files
 ```
+### Migrations
+
+Using [alembic](https://alembic.sqlalchemy.org/)
+
+``` bash
+alembic init alembic
+```
+
+Create script
+``` bash
+alembic revision -m "SCRIPT DESCRIPTION"
+```
 
 ### Test
-Run tests
+
+Run tests using [pytest](https://docs.pytest.org/en/6.2.x/)
+
 ``` bash
 pytest tests/
 ```
