@@ -3,6 +3,7 @@ import uuid
 from unittest.mock import MagicMock
 
 from app.domain.users.command.user_create_command import UserCreateCommand
+from app.domain.users.command.user_update_status_command import UpdateUserStatusCommand
 from app.domain.users.model.user import User
 from app.domain.users.model.user_id import UserId
 from app.domain.users.usecases.user_usecases import UserUseCases
@@ -39,6 +40,18 @@ class TestUserUseCases(unittest.TestCase):
         )
         self.assertIsNotNone(user_usecases.register(user_register))
 
-
-if __name__ == '__main__':
-    unittest.main()
+    def test_update_user_status(self):
+        user_id = UserId(id=str(uuid.uuid4()))
+        user_mock = User(
+            id=user_id,
+            username='mock',
+            email='email@mail.com',
+            password='aaaa',
+            status=True,
+        )
+        self.uow.repository.find_by_id = MagicMock(return_value=user_mock)
+        self.uow.repository.save = MagicMock(return_value=user_mock)
+        user_usecases = UserUseCases(self.uow, self.pwd_encoder)
+        command = UpdateUserStatusCommand(user_id=user_id, status=False)
+        updated_user = user_usecases.update_status(command)
+        assert updated_user.is_active is False

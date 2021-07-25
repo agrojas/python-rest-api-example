@@ -13,8 +13,9 @@ from app.dependencies.dependencies import (
     jwt_auth_dependency,
     user_usecases_dependency,
 )
-from app.adapters.http.users.input.user import UserRequest
+from app.adapters.http.users.input.user import UserRequest, UserStatusRequest
 from app.adapters.http.users.output.user import UserResponse
+from app.domain.users.command.user_update_status_command import UpdateUserStatusCommand
 from app.domain.users.usecases.user_usecases import UserUseCases
 
 router = APIRouter()
@@ -67,6 +68,34 @@ async def create_users(
     logger.info("Create user called")
     try:
         return user_usecases.register(user_request.to_create_user_command())
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=e,
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+
+@router.patch('/users/{user_id}/status', response_model=UserResponse)
+async def update_status_users(
+    user_id: str,
+    user_status_request: UserStatusRequest,
+    token: str = Depends(oauth2_scheme),
+    jwt_auth: JwtAuthenticator = Depends(jwt_auth_dependency),
+    user_usecases: UserUseCases = Depends(user_usecases_dependency),
+):
+    logger.info("Update user status called")
+    try:
+        jwt_auth.authenticate(token)
+        return user_usecases.update_status(
+            UpdateUserStatusCommand(user_id, user_status_request.status)
+        )
+    except AuthenticationException:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

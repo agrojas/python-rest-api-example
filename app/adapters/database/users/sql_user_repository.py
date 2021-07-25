@@ -13,7 +13,7 @@ class SQLUserRepository(UserRepository):
     def __init__(self, session: Session):
         self.session: Session = session
 
-    def add(self, user: User):
+    def save(self, user: User):
         user_dto = UserDTO.from_entity(user)
         try:
             self.session.add(user_dto)

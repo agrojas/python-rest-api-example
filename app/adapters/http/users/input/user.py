@@ -17,3 +17,7 @@ class UserRequest(BaseModel):
             password=self.password,
             full_name=self.full_name,
         )
+
+
+class UserStatusRequest(BaseModel):
+    status: bool

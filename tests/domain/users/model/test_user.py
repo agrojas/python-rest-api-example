@@ -20,3 +20,9 @@ class TestUserUseCases(unittest.TestCase):
         new_user = User(username='test', email='email', password='aaaa', id=user_id)
         assert new_user.id != user_id2
         assert new_user.is_active
+
+    def test_user_update_status(self):
+        user_id = UserId(id=str(uuid.uuid4()))
+        new_user = User(username='test', email='email', password='aaaa', id=user_id)
+        new_user.update_status(False)
+        assert not new_user.is_active
