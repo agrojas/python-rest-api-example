@@ -1,14 +1,14 @@
-from pydantic import EmailStr
+from pydantic import EmailStr, Field
 from pydantic.main import BaseModel
 from typing import Optional
 from app.domain.users.command.user_create_command import UserCreateCommand
 
 
 class UserRequest(BaseModel):
-    username: str
-    password: str
-    full_name: Optional[str] = None
-    email: EmailStr
+    username: str = Field(example="username")
+    password: str = Field(example="secure")
+    full_name: Optional[str] = Field(example="Full Name")
+    email: EmailStr = Field(example="username@mail.com")
 
     def to_create_user_command(self):
         return UserCreateCommand(
@@ -20,4 +20,4 @@ class UserRequest(BaseModel):
 
 
 class UserStatusRequest(BaseModel):
-    status: bool
+    status: Optional[str] = Field(example="ACTIVE")

@@ -20,12 +20,24 @@ def override_get_settings():
     return settings_to_test
 
 
+token_admin = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MjU0Mzg4NzQwNH0.oVgFoLrMgfLRDqoyBO7XrroqwVrwwfPIMBLQOgqpiP8'
+
+
 @pytest.fixture(scope="module")
 def test_app():
     client = TestClient(main.app)
     main.app.dependency_overrides[get_settings] = override_get_settings
     main.app.dependency_overrides[get_session] = override_get_db
     build_test_db_context()
+    client.post(
+        "/users",
+        json={
+            "username": "admin",
+            "password": "admin",
+            "full_name": "admin",
+            "email": "admin@example.com",
+        },
+    )
     yield client  # testing happens here
 
 
@@ -39,14 +51,10 @@ def build_test_db_context():
     Base.metadata.create_all(bind=engine)
 
 
-def test_get_users_empty(test_app):
-    response = test_app.get("/users")
-    assert response.status_code == 200
-    assert response.json() == []
-
-
 def test_get_users_not_found(test_app):
-    response = test_app.get("/users/123")
+    response = test_app.get(
+        "/users/123", headers={'Authorization': f'Bearer {token_admin}'}
+    )
     assert response.status_code == 404
 
 
@@ -66,7 +74,7 @@ def test_post_users(test_app):
     assert response.json()['username'] == 'string'
     assert response.json()['full_name'] == 'string'
     assert response.json()['email'] == 'user@example.com'
-    assert response.json()['is_active']
+    assert response.json()['status'] == 'ACTIVE'
 
 
 def test_exist_users_after_created(test_app):
@@ -81,14 +89,16 @@ def test_exist_users_after_created(test_app):
     )
     assert create_response.status_code == 200
     user_id = create_response.json()['id']
-    response = test_app.get("/users/" + str(user_id))
+    response = test_app.get(
+        f'/users/{user_id}', headers={'Authorization': f'Bearer {token_admin}'}
+    )
     assert response.status_code == 200
     assert response.json() is not None
     assert response.json()['id'] == user_id
     assert response.json()['username'] == 'string_2'
     assert response.json()['full_name'] == 'string'
     assert response.json()['email'] == 'user_2@example.com'
-    assert response.json()['is_active']
+    assert response.json()['status'] == 'ACTIVE'
 
 
 def test_create_users_invalid_body(test_app):
@@ -97,3 +107,26 @@ def test_create_users_invalid_body(test_app):
         json={"username": "string_3", "password": "string", "full_name": "string"},
     )
     assert create_response.status_code == 422
+
+
+def test_update_users_status(test_app):
+    create_response = test_app.post(
+        "/users",
+        json={
+            "username": "string_3",
+            "password": "secure",
+            "full_name": "string",
+            "email": "user_3@example.com",
+        },
+    )
+    assert create_response.status_code == 200
+    user_id = create_response.json()['id']
+    response = test_app.patch(
+        f'/users/{user_id}/status',
+        json={"status": "BLOCKED"},
+        headers={'Authorization': f'Bearer {token_admin}'},
+    )
+    assert response.status_code == 200
+    assert response.json() is not None
+    assert response.json()['id'] == user_id
+    assert response.json()['status'] == 'BLOCKED'

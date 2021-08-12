@@ -19,9 +19,21 @@ class UserRepository(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def find_by_email_or_username(self, email: str, username: str) -> User:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def find_by_email(self, email: str) -> User:
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def all(self) -> List[User]:
         raise NotImplementedError
 
     @abc.abstractmethod
     def total(self) -> int:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def update(self, user: User):
         raise NotImplementedError

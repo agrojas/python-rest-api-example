@@ -20,6 +20,15 @@ class SQLUserRepository(UserRepository):
         except Exception:
             raise
 
+    def update(self, user: User):
+        try:
+            self.session.query(UserDTO).filter_by(id=user.id.id).update(
+                {UserDTO.full_name: user.full_name, UserDTO.status: str(user.status)}
+            )
+
+        except Exception:
+            raise
+
     def find_by_id(self, user_id: UserId) -> User:
         try:
             user_dto = self.session.query(UserDTO).filter_by(id=user_id.id).one()
@@ -32,6 +41,28 @@ class SQLUserRepository(UserRepository):
     def find_by_username(self, username: str) -> User:
         try:
             user_dto = self.session.query(UserDTO).filter_by(username=username).one()
+        except NoResultFound:
+            return None
+        except Exception:
+            raise
+        return user_dto.to_entity()
+
+    def find_by_email(self, email: str) -> User:
+        try:
+            user_dto = self.session.query(UserDTO).filter_by(email=email).one()
+        except NoResultFound:
+            return None
+        except Exception:
+            raise
+        return user_dto.to_entity()
+
+    def find_by_email_or_username(self, email: str, username: str) -> User:
+        try:
+            user_dto = (
+                self.session.query(UserDTO)
+                .filter((UserDTO.email == email) | (UserDTO.username == username))
+                .one()
+            )
         except NoResultFound:
             return None
         except Exception:

@@ -28,8 +28,8 @@ class TestSQLUserRepository(unittest.TestCase):
         )
         user_repository = SQLUserRepository(self.session)
         user_repository.save(user)
-        retrived_user = user_repository.find_by_id(user_id)
-        assert retrived_user.id == user.id
+        retrieved_user = user_repository.find_by_id(user_id)
+        assert retrieved_user.id == user.id
 
     def test_user_repository_all(self):
         user_repository = SQLUserRepository(self.session)
