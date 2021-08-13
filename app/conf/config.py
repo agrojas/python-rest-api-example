@@ -12,10 +12,8 @@ class Settings(BaseSettings):
     algorithm: str
     access_token_expire_minutes: int = 1
     database_url: str
+    version_prefix: str
 
     class Config:
         BASE_DIR = os.path.dirname(os.path.abspath("../.env"))
         env_file = os.path.join(BASE_DIR, ".env")
-
-    def is_dev_env(self):
-        return self.environment == self.DEV_ENV
