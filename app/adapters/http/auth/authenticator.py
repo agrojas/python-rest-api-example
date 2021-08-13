@@ -3,11 +3,12 @@ from jose import jwt, JWTError
 from app.adapters.http.auth.exceptions.authentication_exception import (
     AuthenticationException,
 )
+from app.domain.users.model.user_exceptions import UsersBlockedException
 from app.domain.users.usecases.user_usecases import UserUseCases
 from app.conf.config import Settings
 
 
-class JwtAuthenticator:
+class Authenticator:
     def __init__(self, user_usecases: UserUseCases, settings: Settings):
         self.user_usecases = user_usecases
         self.secret_key = settings.secret_key
@@ -26,4 +27,6 @@ class JwtAuthenticator:
         )
         if user is None:
             raise AuthenticationException()
+        if user.is_blocked():
+            raise UsersBlockedException()
         return user

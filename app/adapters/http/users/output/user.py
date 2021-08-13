@@ -16,7 +16,7 @@ class UserResponse(BaseModel):
     full_name: Optional[str]
     email: EmailStr
     id: UserId
-    is_active: Optional[bool]
+    status: Optional[str]
 
     @validator('id')
     def map_id(cls, v):

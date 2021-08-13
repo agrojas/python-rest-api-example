@@ -18,19 +18,19 @@ depends_on = None
 
 
 def upgrade():
-    op.create_
     op.create_table(
-        'User',
+        'users',
         sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
+        sa.Column('username', sa.String(), nullable=False, unique=True),
+        sa.Column('email', sa.String(), nullable=False, unique=True),
         sa.Column('full_name', sa.String(), nullable=False),
-        sa.Column('email', sa.String(), nullable=False),
         sa.Column('hashed_password', sa.String(), nullable=False),
-        sa.Column('is_active', sa.Boolean(), nullable=False),
-        sa.Column('created_at', sa.BigInteger(), nullable=False),
-        sa.Column('updated_at', sa.BigInteger(), nullable=False),
+        sa.Column('status', sa.String(), nullable=False),
+        sa.Column('created_at', sa.DateTime(), nullable=False),
+        sa.Column('updated_at', sa.DateTime(), nullable=False),
         sa.PrimaryKeyConstraint('id'),
     )
 
 
 def downgrade():
-    op.drop_table('User')
+    op.drop_table('users')

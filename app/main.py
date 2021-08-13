@@ -1,4 +1,7 @@
-from app.adapters.http.users import users_controller, users_authentication_controller
+import uvicorn
+
+from app.adapters.http.users import users_controller
+from app.adapters.http.auth import authentication_controller
 from fastapi import FastAPI
 import logging.config
 
@@ -23,4 +26,4 @@ async def shutdown():
 
 
 app.include_router(users_controller.router)
-app.include_router(users_authentication_controller.router)
+app.include_router(authentication_controller.router)
