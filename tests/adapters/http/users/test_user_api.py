@@ -130,3 +130,23 @@ def test_update_users_status(test_app):
     assert response.json() is not None
     assert response.json()['id'] == user_id
     assert response.json()['status'] == 'BLOCKED'
+
+
+def test_update_users_status_invalid_body(test_app):
+    create_response = test_app.post(
+        "/users",
+        json={
+            "username": "string_4",
+            "password": "secure",
+            "full_name": "string",
+            "email": "user_4@example.com",
+        },
+    )
+    assert create_response.status_code == 200
+    user_id = create_response.json()['id']
+    response = test_app.patch(
+        f'/users/{user_id}/status',
+        json={"status": "INVALID"},
+        headers={'Authorization': f'Bearer {token_admin}'},
+    )
+    assert response.status_code == 422

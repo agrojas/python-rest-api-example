@@ -2,6 +2,7 @@ from pydantic import EmailStr, Field
 from pydantic.main import BaseModel
 from typing import Optional
 from app.domain.users.command.user_create_command import UserCreateCommand
+from app.domain.users.model.user_status import UserStatus
 
 
 class UserRequest(BaseModel):
@@ -20,4 +21,4 @@ class UserRequest(BaseModel):
 
 
 class UserStatusRequest(BaseModel):
-    status: Optional[str] = Field(example="ACTIVE")
+    status: UserStatus

@@ -121,7 +121,6 @@ async def update_status_users(
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-
     except UserAlreadyHadStatusError as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=e.message)
     except Exception as e:
