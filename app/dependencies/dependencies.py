@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from app.adapters.database.database import get_session_factory
 from app.adapters.database.users.sql_user_repository import SQLUserRepository
 from app.adapters.database.users.unit_of_work import UserUnitOfWork
-from app.adapters.http.auth.jwt_authenticator import JwtAuthenticator
+from app.adapters.http.auth.authenticator import Authenticator
 from app.adapters.http.auth.jwt_user_signer import JwtUserSigner
 from app.domain.users.auth.bycryp_password_encoder import ByCryptPasswordEncoder
 from app.domain.users.auth.password_encoder import PasswordEncoder
@@ -70,8 +70,8 @@ def user_usecases_dependency(
 def jwt_auth_dependency(
     user_usecases: UserUseCases = Depends(user_usecases_dependency),
     settings: Settings = Depends(get_settings),
-) -> JwtAuthenticator:
-    return JwtAuthenticator(user_usecases, settings)
+) -> Authenticator:
+    return Authenticator(user_usecases, settings)
 
 
 def jwt_user_signer_dependency(
