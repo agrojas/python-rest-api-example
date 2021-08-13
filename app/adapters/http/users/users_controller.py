@@ -28,21 +28,6 @@ logger = logging.getLogger(__name__)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-@router.get("/users/me", response_model=UserResponse)
-async def read_users_me(
-    token: str = Depends(oauth2_scheme),
-    jwt_auth: Authenticator = Depends(jwt_auth_dependency),
-):
-    try:
-        return jwt_auth.authenticate(token)
-    except AuthenticationException:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-
 @router.get('/users/{user_id}', response_model=UserResponse)
 async def get_user(
     user_id: str,
