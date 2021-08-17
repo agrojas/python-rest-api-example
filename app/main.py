@@ -5,9 +5,9 @@ import logging.config
 
 from app.conf.config import Settings
 
-settings = Settings()
 logging.config.fileConfig('app/conf/logging.conf', disable_existing_loggers=False)
 
+settings = Settings()
 
 app = FastAPI(
     version=settings.version, title=settings.title, description=settings.description
