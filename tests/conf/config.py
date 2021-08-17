@@ -7,4 +7,5 @@ settings_to_test = Settings(
     database_url="sqlite:///:memory:",
     secret_key="test",
     algorithm="HS256",
+    version_prefix="v1",
 )
