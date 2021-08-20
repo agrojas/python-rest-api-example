@@ -59,6 +59,3 @@ app.add_exception_handler(
 )
 app.add_exception_handler(UsersNotFoundError, user_not_found_exception_handler)
 app.add_exception_handler(InvalidCredentialsError, user_not_found_exception_handler)
-
-if __name__ == '__main__':
-    uvicorn.run(app, port=5000)
