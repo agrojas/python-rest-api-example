@@ -48,8 +48,11 @@ class UserUseCases:
     def find_by_username(self, username: str):
         return self.user_uow.repository.find_by_username(username)
 
-    def find_by_id(self, user_id: str):
-        return self.user_uow.repository.find_by_id(UserId(user_id))
+    def find_by_id(self, user_id: str) -> User:
+        user = self.user_uow.repository.find_by_id(UserId(user_id))
+        if not user:
+            raise UsersNotFoundError(user_id)
+        return user
 
     def update_status(
         self, update_user_status_command: UpdateUserStatusCommand

@@ -5,6 +5,7 @@ from app.domain.users.command.user_credentials_command import UserCredentialsCom
 from app.domain.users.usecases.user_authentication_usecases import (
     UserAuthenticationUseCases,
 )
+from app.domain.users.model.user_exceptions import InvalidCredentialsError
 
 
 class TestUserAuthenticationUseCases(unittest.TestCase):
@@ -37,9 +38,11 @@ class TestUserAuthenticationUseCases(unittest.TestCase):
             username="test", password="test"
         )
         self.pwd_encoder.verify = MagicMock(return_value=True)
-        assert (
-            user_authentication_usecases.find_by_credentials(user_credentials_command)
-            is None
+
+        self.assertRaises(
+            InvalidCredentialsError,
+            user_authentication_usecases.find_by_credentials,
+            user_credentials_command,
         )
 
     def test_find_by_credentials_wrong_password(self):
@@ -54,7 +57,8 @@ class TestUserAuthenticationUseCases(unittest.TestCase):
             username="test", password="test"
         )
         self.pwd_encoder.verify = MagicMock(return_value=False)
-        assert (
-            user_authentication_usecases.find_by_credentials(user_credentials_command)
-            is None
+        self.assertRaises(
+            InvalidCredentialsError,
+            user_authentication_usecases.find_by_credentials,
+            user_credentials_command,
         )
