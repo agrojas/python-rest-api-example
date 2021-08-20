@@ -25,3 +25,10 @@ class UsersBlockedException(Exception):
 
     def __str__(self):
         return UsersBlockedException.message
+
+
+class InvalidCredentialsError(Exception):
+    message = "Invalid user credentials"
+
+    def __str__(self):
+        return InvalidCredentialsError.message

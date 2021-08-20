@@ -31,11 +31,7 @@ async def login(
     user = user_auth_usecases.find_by_credentials(
         UserCredentialsCommand(username=form_data.username, password=form_data.password)
     )
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-        )
+
     return Token(
         access_token=jwt_user_signer.create_access_token(user.username),
         token_type='bearer',
