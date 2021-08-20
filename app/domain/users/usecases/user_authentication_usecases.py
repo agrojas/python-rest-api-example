@@ -4,6 +4,7 @@ from app.domain.users.auth.password_encoder import PasswordEncoder
 from app.domain.users.command.user_credentials_command import UserCredentialsCommand
 from app.domain.users.model.user import User
 from app.domain.users.repository.unit_of_work import AbstractUserUnitOfWork
+from app.domain.users.model.user_exceptions import InvalidCredentialsError
 
 
 class UserAuthenticationUseCases:
@@ -16,9 +17,10 @@ class UserAuthenticationUseCases:
     ) -> Optional[User]:
         user = self.user_uow.repository.find_by_username(user_command.username)
         if not user:
-            return None
+            raise InvalidCredentialsError()
         if not self.verify_password(user_command.password, user.password):
-            return None
+            raise InvalidCredentialsError()
+
         return user
 
     def verify_password(self, plain_password, hashed_password):
