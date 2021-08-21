@@ -11,6 +11,7 @@ from app.adapters.http.users.exceptions_handler import (
 )
 from app.adapters.http.users import users_controller
 from app.adapters.http.auth import authentication_controller
+from app.adapters.http.health import health_controller
 from fastapi import FastAPI
 import logging.config
 
@@ -49,6 +50,8 @@ app.include_router(
 app.include_router(
     authentication_controller.router, prefix=settings.version_prefix, tags=["auth"]
 )
+
+app.include_router(health_controller.router, tags=["health"])
 
 app.add_exception_handler(AuthenticationException, validation_exception_handler)
 app.add_exception_handler(

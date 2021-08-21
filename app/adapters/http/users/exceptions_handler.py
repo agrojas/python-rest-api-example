@@ -10,6 +10,7 @@ from app.domain.users.model.user_exceptions import (
     UserAlreadyHadStatusError,
     UsersNotFoundError,
     InvalidCredentialsError,
+    UsersBlockedException,
 )
 
 
@@ -42,5 +43,11 @@ async def user_not_found_exception_handler(
 
 async def wrong_credentials_exception_handler(
     request: Request, exc: InvalidCredentialsError
+) -> JSONResponse:
+    return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content=exc.message,)
+
+
+async def user_blocked_exception_handler(
+    request: Request, exc: UsersBlockedException
 ) -> JSONResponse:
     return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content=exc.message,)
