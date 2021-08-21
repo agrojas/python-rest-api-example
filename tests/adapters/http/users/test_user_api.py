@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.adapters.database.users.model import Base, UserDTO
 from app.dependencies.dependencies import get_session
-from dependencies.dependencies import get_settings
+from app.dependencies.dependencies import get_settings
 from tests.conf.config import settings_to_test
 
 
