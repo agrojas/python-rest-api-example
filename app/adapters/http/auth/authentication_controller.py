@@ -14,15 +14,12 @@ from app.domain.users.usecases.user_authentication_usecases import (
     UserAuthenticationUseCases,
 )
 
-router = APIRouter()
+router = APIRouter(tags=["auth"])
 logger = logging.getLogger(__name__)
 
 
 @router.post(
-    "/token",
-    response_model=Token,
-    status_code=status.HTTP_201_CREATED,
-    tags=["Create token"],
+    "/token", response_model=Token, status_code=status.HTTP_201_CREATED,
 )
 async def login(
     form_data: OAuth2PasswordRequestForm = Depends(),

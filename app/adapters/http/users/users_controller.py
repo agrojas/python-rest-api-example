@@ -10,15 +10,12 @@ from app.domain.users.command.user_update_status_command import UpdateUserStatus
 from app.domain.users.usecases.user_usecases import UserUseCases
 from app.dependencies.dependencies import user_token_validation
 
-router = APIRouter()
+router = APIRouter(tags=["users"])
 logger = logging.getLogger(__name__)
 
 
 @router.get(
-    '/users/{user_id}',
-    response_model=UserResponse,
-    status_code=status.HTTP_200_OK,
-    tags=["Get User by Id"],
+    '/users/{user_id}', response_model=UserResponse, status_code=status.HTTP_200_OK,
 )
 async def get_user(
     user_id: str,
@@ -31,10 +28,7 @@ async def get_user(
 
 
 @router.get(
-    '/users',
-    response_model=List[UserResponse],
-    status_code=status.HTTP_200_OK,
-    tags=["Get Users"],
+    '/users', response_model=List[UserResponse], status_code=status.HTTP_200_OK,
 )
 async def get_users(
     user_from_token=Depends(user_token_validation),
@@ -45,10 +39,7 @@ async def get_users(
 
 
 @router.post(
-    '/users',
-    response_model=UserResponse,
-    status_code=status.HTTP_201_CREATED,
-    tags=["Creat an User"],
+    '/users', response_model=UserResponse, status_code=status.HTTP_201_CREATED,
 )
 async def create_users(
     user_request: UserRequest,
@@ -62,9 +53,8 @@ async def create_users(
     '/users/{user_id}/status',
     response_model=UserResponse,
     status_code=status.HTTP_202_ACCEPTED,
-    tags=["update user status"],
 )
-async def update_status_users(
+async def update_users_status(
     user_id: str,
     user_status_request: UserStatusRequest,
     user_from_token=Depends(user_token_validation),
