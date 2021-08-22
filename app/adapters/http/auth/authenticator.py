@@ -6,6 +6,7 @@ from app.adapters.http.auth.exceptions.authentication_exception import (
 from app.domain.users.model.user_exceptions import UsersBlockedException
 from app.domain.users.usecases.user_usecases import UserUseCases
 from app.conf.config import Settings
+from app.domain.users.model.user import User
 
 
 class Authenticator:
@@ -14,7 +15,7 @@ class Authenticator:
         self.secret_key = settings.secret_key
         self.algorithm = settings.algorithm
 
-    def authenticate(self, token: str):
+    def authenticate(self, token: str) -> User:
         try:
             payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
             username: str = payload.get("sub")

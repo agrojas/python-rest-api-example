@@ -2,6 +2,7 @@ from functools import lru_cache
 from typing import Iterator
 
 from fastapi import Depends
+from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
@@ -19,6 +20,9 @@ from app.domain.users.usecases.user_authentication_usecases import (
 )
 from app.domain.users.usecases.user_usecases import UserUseCases
 from app.conf.config import Settings
+from app.domain.users.model.user import User
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/v1/token")
 
 
 @lru_cache()
@@ -78,3 +82,10 @@ def jwt_user_signer_dependency(
     settings: Settings = Depends(get_settings),
 ) -> JwtUserSigner:
     return JwtUserSigner(settings)
+
+
+def user_token_validation(
+    token: str = Depends(oauth2_scheme),
+    jwt_auth: Authenticator = Depends(jwt_auth_dependency),
+) -> User:
+    return jwt_auth.authenticate(token)

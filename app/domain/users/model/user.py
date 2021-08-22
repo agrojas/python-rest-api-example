@@ -1,4 +1,3 @@
-import datetime
 from typing import Optional, Union
 
 from pydantic import BaseModel, Field
@@ -16,7 +15,7 @@ class User(BaseModel):
     password: str = Field(example="secure")
     full_name: Optional[str] = Field(example="Full Name")
     status: Optional[UserStatus] = Field(UserStatus.ACTIVE, example=UserStatus.ACTIVE)
-    created_at: Union[str, date, None] = Field(example="Full Name")
+    created_at: Union[str, date, None] = Field(example="Cre")
     updated_at: Union[str, date, None] = Field(example="Full Name")
 
     def __hash__(self):
@@ -28,7 +27,7 @@ class User(BaseModel):
     def update_status(self, status: UserStatus):
         if self.status == status:
             raise UserAlreadyHadStatusError()
-        self.status = status
+        self.status = status.value
 
     def is_blocked(self):
         return UserStatus.BLOCKED == self.status

@@ -1,7 +1,7 @@
 import logging
 
-from fastapi import Depends, HTTPException, status, APIRouter
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import Depends, APIRouter, status
+from fastapi.security import OAuth2PasswordRequestForm
 
 from app.adapters.http.auth.jwt_user_signer import JwtUserSigner
 from app.adapters.http.auth.output.token import Token
@@ -14,13 +14,13 @@ from app.domain.users.usecases.user_authentication_usecases import (
     UserAuthenticationUseCases,
 )
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-router = APIRouter()
+router = APIRouter(tags=["auth"])
 logger = logging.getLogger(__name__)
 
 
-@router.post("/token", response_model=Token)
+@router.post(
+    "/token", response_model=Token, status_code=status.HTTP_201_CREATED,
+)
 async def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     user_auth_usecases: UserAuthenticationUseCases = Depends(
