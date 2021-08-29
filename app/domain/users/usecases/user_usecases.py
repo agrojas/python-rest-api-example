@@ -12,6 +12,7 @@ from app.domain.users.model.user_exceptions import (
 )
 from app.domain.users.model.user_id import UserId
 from app.domain.users.repository.unit_of_work import AbstractUserUnitOfWork
+from app.domain.users.query.user_query import UserQuery
 
 
 class UserUseCases:
@@ -19,8 +20,10 @@ class UserUseCases:
         self.user_uow: AbstractUserUnitOfWork = user_uow
         self.pwd_encoder = pwd_encoder
 
-    def list(self) -> List[User]:
-        return self.user_uow.repository.all()
+    def list(self, user_query: UserQuery) -> List[User]:
+        return self.user_uow.repository.all(
+            user_query.q, user_query.offset, user_query.limit
+        )
 
     def register(self, user_command: UserCreateCommand) -> User:
         try:

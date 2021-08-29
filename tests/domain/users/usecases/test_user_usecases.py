@@ -9,6 +9,7 @@ from app.domain.users.model.user_id import UserId
 from app.domain.users.model.user_status import UserStatus
 from app.domain.users.usecases.user_usecases import UserUseCases
 from app.domain.users.model.user_exceptions import UserAlreadyExistException
+from app.domain.users.query.user_query import UserQuery
 
 
 class TestUserUseCases(unittest.TestCase):
@@ -18,7 +19,8 @@ class TestUserUseCases(unittest.TestCase):
     def test_list_empty(self):
         user_usecases = UserUseCases(self.uow, self.pwd_encoder)
         self.uow.repository.all = MagicMock(return_value=[])
-        self.assertEqual([], user_usecases.list())
+        user_query = UserQuery()
+        self.assertEqual([], user_usecases.list(user_query))
 
     def test_list_with_results(self):
         user_id = UserId(id=str(uuid.uuid4()))
@@ -27,7 +29,18 @@ class TestUserUseCases(unittest.TestCase):
         )
         self.uow.repository.all = MagicMock(return_value=[user_mock])
         user_usecases = UserUseCases(self.uow, self.pwd_encoder)
-        self.assertEqual(user_usecases.list(), [user_mock])
+        user_query = UserQuery()
+        self.assertEqual(user_usecases.list(user_query), [user_mock])
+
+    def test_list_with_filtered_results(self):
+        user_id = UserId(id=str(uuid.uuid4()))
+        user_mock = User(
+            id=user_id, username='mock', email='email@mail.com', password='aaaa'
+        )
+        self.uow.repository.all = MagicMock(return_value=[user_mock])
+        user_usecases = UserUseCases(self.uow, self.pwd_encoder)
+        user_query = UserQuery(q='mock')
+        self.assertEqual(user_usecases.list(user_query), [user_mock])
 
     def test_register(self):
         user_id = UserId(id=str(uuid.uuid4()))
