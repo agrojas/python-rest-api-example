@@ -1,5 +1,5 @@
 import abc
-from typing import List
+from typing import List, Optional
 
 from app.domain.users.model.user import User
 from app.domain.users.model.user_id import UserId
@@ -27,7 +27,7 @@ class UserRepository(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def all(self) -> List[User]:
+    def all(self, q: Optional[str], offset: int, limit: int) -> List[User]:
         raise NotImplementedError
 
     @abc.abstractmethod

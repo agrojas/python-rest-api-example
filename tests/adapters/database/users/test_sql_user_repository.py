@@ -42,6 +42,28 @@ class TestSQLUserRepository(unittest.TestCase):
         user_repository.save(user1)
         assert user_repository.all() == [user1]
 
+    def test_user_repository_all_filtered(self):
+        user_repository = SQLUserRepository(self.session)
+        user1 = User(
+            id=UserId(id=str(uuid.uuid4())),
+            username="tesst22",
+            email="test22@mail.com",
+            password='aaaa',
+        )
+        user_repository.save(user1)
+        assert user_repository.all(q='tesst22') == [user1]
+
+    def test_user_repository_all_filtered_empty(self):
+        user_repository = SQLUserRepository(self.session)
+        user1 = User(
+            id=UserId(id=str(uuid.uuid4())),
+            username="tesst2",
+            email="test2@mail.com",
+            password='aaaa',
+        )
+        user_repository.save(user1)
+        assert user_repository.all(q='InvalidMock') == []
+
     def test_user_repository_total(self):
         user_repository = SQLUserRepository(self.session)
         user = User(

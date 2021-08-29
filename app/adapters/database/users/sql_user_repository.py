@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import Session
@@ -69,8 +69,13 @@ class SQLUserRepository(UserRepository):
             raise
         return user_dto.to_entity()
 
-    def all(self) -> List[User]:
-        return [u.to_entity() for u in self.session.query(UserDTO).all()]
+    def all(
+        self, q: Optional[str] = None, offset: int = 0, limit: int = 100
+    ) -> List[User]:
+        query = self.session.query(UserDTO)
+        if q:
+            query = query.filter((UserDTO.email == q) | (UserDTO.username == q))
+        return [u.to_entity() for u in query.limit(limit).offset(offset)]
 
     def total(self) -> int:
         return self.session.query(UserDTO).count()
