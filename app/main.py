@@ -62,7 +62,6 @@ app.add_exception_handler(
 )
 app.add_exception_handler(UsersNotFoundError, user_not_found_exception_handler)
 app.add_exception_handler(InvalidCredentialsError, wrong_credentials_exception_handler)
-
 app.add_exception_handler(UsersBlockedException, user_blocked_exception_handler)
 
 if __name__ == "__main__":
