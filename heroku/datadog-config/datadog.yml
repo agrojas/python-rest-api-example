@@ -1,0 +1,11 @@
+hostname: python-rest-api-example
+listeners:
+  - name: docker
+config_providers:
+  - name: docker
+    polling: true
+    poll_interval: 1s
+process_config:
+    enabled: 'true'
+
+python_version: 3
