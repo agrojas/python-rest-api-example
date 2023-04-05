@@ -15,7 +15,7 @@ class User(BaseModel):
     password: str = Field(example="secure")
     full_name: Optional[str] = Field(example="Full Name")
     status: Optional[UserStatus] = Field(UserStatus.ACTIVE, example=UserStatus.ACTIVE)
-    created_at: Union[str, date, None] = Field(example="Cre")
+    created_at: Union[str, date, None] = Field(example="12/12/2021")
     updated_at: Union[str, date, None] = Field(example="Full Name")
 
     def __hash__(self):

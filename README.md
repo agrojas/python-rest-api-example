@@ -28,7 +28,7 @@ pre-commit run --all-files
 Using [alembic](https://alembic.sqlalchemy.org/)
 
 ``` bash
-alembic init alembic
+alembic init migrations
 ```
 
 Create script

@@ -8,7 +8,9 @@ router = APIRouter(tags=["health"])
 
 
 @router.get(
-    '/health', response_model=HealthStatusResponse, status_code=status.HTTP_200_OK,
+    '/health',
+    response_model=HealthStatusResponse,
+    status_code=status.HTTP_200_OK,
 )
 async def health(settings: Settings = Depends(get_settings)):
     return HealthStatusResponse(status="UP", version=settings.version)

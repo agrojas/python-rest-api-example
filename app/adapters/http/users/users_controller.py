@@ -22,7 +22,9 @@ async def user_query(
 
 
 @router.get(
-    '/users', response_model=List[UserResponse], status_code=status.HTTP_200_OK,
+    '/users',
+    response_model=List[UserResponse],
+    status_code=status.HTTP_200_OK,
 )
 async def get_users(
     user_from_token=Depends(user_token_validation),
@@ -34,7 +36,9 @@ async def get_users(
 
 
 @router.post(
-    '/users', response_model=UserResponse, status_code=status.HTTP_201_CREATED,
+    '/users',
+    response_model=UserResponse,
+    status_code=status.HTTP_201_CREATED,
 )
 async def create_users(
     user_request: UserRequest,
@@ -45,7 +49,9 @@ async def create_users(
 
 
 @router.get(
-    '/users/{user_id}', response_model=UserResponse, status_code=status.HTTP_200_OK,
+    '/users/{user_id}',
+    response_model=UserResponse,
+    status_code=status.HTTP_200_OK,
 )
 async def get_user(
     user_id: str,

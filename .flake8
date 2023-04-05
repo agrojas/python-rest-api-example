@@ -4,19 +4,19 @@ per-file-ignores =
     tests/*.py:D103, D100
 
 ignore =
-    E203, # Whitespace before ':'
-    E402, # Import not at top of file
-    E501, # Line too long
-    W503, # Line break before binary operator
-    B006, # Mutable data structures in argument defaults
-    D107, # Missing docstring in init
-    F401, # Imported but unused, pylint already does this
+    E203,
+    E402,
+    E501,
+    W503,
+    B006,
+    D107,
+    F401,
 select =
-    C, # McCabe complexity
-    E, # pep8 errors
-    F, # pyflakes
-    W, # pep8 warnings
-    B,  # Bugbear plugin
+    C,
+    E,
+    F,
+    W,
+    B,
     B950,
-    D,  # pydocstyle plugin
+    D,
 max-line-length = 88

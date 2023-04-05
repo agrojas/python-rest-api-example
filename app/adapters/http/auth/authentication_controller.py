@@ -19,7 +19,9 @@ logger = logging.getLogger(__name__)
 
 
 @router.post(
-    "/token", response_model=Token, status_code=status.HTTP_201_CREATED,
+    "/token",
+    response_model=Token,
+    status_code=status.HTTP_201_CREATED,
 )
 async def login(
     form_data: OAuth2PasswordRequestForm = Depends(),

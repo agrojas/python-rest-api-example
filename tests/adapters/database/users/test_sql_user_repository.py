@@ -125,7 +125,10 @@ class TestSQLUserRepository(unittest.TestCase):
         user_repository = SQLUserRepository(self.session)
         id_user_1 = UserId(id=str(uuid.uuid4()))
         user1 = User(
-            id=id_user_1, username="tesst4", email="test4@mail.com", password='aaaa',
+            id=id_user_1,
+            username="tesst4",
+            email="test4@mail.com",
+            password='aaaa',
         )
         user_repository.save(user1)
         user2 = User(
@@ -143,7 +146,10 @@ class TestSQLUserRepository(unittest.TestCase):
         id_user_1 = UserId(id=str(uuid.uuid4()))
         wrong_id_user = UserId(id=str(uuid.uuid4()))
         user1 = User(
-            id=id_user_1, username="tesst4", email="test4@mail.com", password='aaaa',
+            id=id_user_1,
+            username="tesst4",
+            email="test4@mail.com",
+            password='aaaa',
         )
         user_repository.save(user1)
         user2 = User(

@@ -21,7 +21,8 @@ class UserDTO(Base):
     hashed_password: Union[str, Column] = Column(String)
     status: Union[str, Column] = Column(String, default=True)
     created_at: Union[DateTime, Column] = Column(
-        DateTime(timezone=True), server_default=func.now()
+        DateTime(timezone=True),
+        server_default=func.now(),
     )
     updated_at: Union[DateTime, Column] = Column(
         DateTime(timezone=True), onupdate=func.now()

@@ -5,6 +5,8 @@ Revises:
 Create Date: 2021-07-18 01:25:19.346738
 
 """
+from datetime import datetime
+
 from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
@@ -16,6 +18,8 @@ down_revision = None
 branch_labels = None
 depends_on = None
 
+now = datetime.utcnow
+
 
 def upgrade():
     op.create_table(
@@ -26,8 +30,16 @@ def upgrade():
         sa.Column('full_name', sa.String(), nullable=False),
         sa.Column('hashed_password', sa.String(), nullable=False),
         sa.Column('status', sa.String(), nullable=False),
-        sa.Column('created_at', sa.DateTime(), nullable=False),
-        sa.Column('updated_at', sa.DateTime(), nullable=False),
+        sa.Column(
+            'created_at', sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
+        sa.Column(
+            'updated_at',
+            sa.DateTime(),
+            nullable=False,
+            server_default=sa.func.now(),
+            onupdate=sa.func.now(),
+        ),
         sa.PrimaryKeyConstraint('id'),
     )
 
